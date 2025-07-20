@@ -7,7 +7,7 @@ type RepoDescriptionProps = {
 
 export default function RepoDescription({ repo }: RepoDescriptionProps) {
   return (
-    <Section>
+    <Section className="h-full">
       <h3 className="text-lg font-bold">{repo.full_name}</h3>
       <h4 className="text-sm">{repo.description}</h4>
 

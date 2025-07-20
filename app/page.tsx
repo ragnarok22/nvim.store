@@ -13,7 +13,7 @@ export default async function Home() {
   };
 
   return (
-    <div className="p-3">
+    <div className="flex flex-col p-3 w-full h-full">
       <Header total={total_repositories} />
 
       <RepositoryWrapper repositories={repositories} />

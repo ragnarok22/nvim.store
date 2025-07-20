@@ -1,15 +1,22 @@
 import { Repository } from "@/lib/definitions";
 import { formatNumber } from "@/lib/utils";
+import clsx from "clsx";
 
 type RepoItemProps = {
   item: Repository;
+  isSelected: boolean;
   onClick?: () => void;
 };
 
-export default function RepoItem({ item, onClick }: RepoItemProps) {
+export default function RepoItem({ item, isSelected, onClick }: RepoItemProps) {
   return (
     <div
-      className="font-mono rounded-sm p-1 hover:bg-blue-500 cursor-pointer"
+      className={clsx(
+        "font-mono rounded-sm p-1 transition hover:bg-foreground hover:text-black cursor-pointer",
+        {
+          "bg-foreground text-black": isSelected,
+        },
+      )}
       onClick={onClick}
     >
       <span>{item.full_name}</span>

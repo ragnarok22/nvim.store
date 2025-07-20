@@ -12,6 +12,7 @@ export default async function Home() {
     repositories: Repository[];
     total_repositories: number;
   };
+  const selected = repositories[0];
 
   return (
     <div className="p-3">
@@ -22,7 +23,7 @@ export default async function Home() {
           <RepoList repositories={repositories} />
         </div>
         <div className="w-2/3">
-          <RepoDescription />
+          <RepoDescription repo={selected} />
         </div>
       </div>
     </div>

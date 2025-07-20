@@ -20,7 +20,7 @@ export default function Header({ total }: HeaderProps) {
         {ASCII_ART.join("\n")}
       </h1>
 
-      <div className="flex flex-col">
+      <div className="flex flex-col font-mono">
         <span>Filter: {"None"}</span>
         <span>Showing 100 of {total} plugins</span>
         <span>Press ? for help</span>

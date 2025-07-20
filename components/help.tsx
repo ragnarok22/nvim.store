@@ -31,7 +31,10 @@ export default function Help() {
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       const shortcut = shortcuts[event.key];
-      if (shortcut) shortcut.action();
+      if (shortcut) {
+        event.preventDefault();
+        shortcut.action();
+      }
     };
 
     window.addEventListener("keydown", handleKeyDown);

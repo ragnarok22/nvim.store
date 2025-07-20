@@ -32,7 +32,7 @@ export default function RepoDescription({ repo }: RepoDescriptionProps) {
 
       {data && (
         <div
-          className="prose prose-invert"
+          className="prose prose-invert font-mono"
           dangerouslySetInnerHTML={{ __html: data }}
         />
       )}

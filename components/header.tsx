@@ -16,7 +16,7 @@ type HeaderProps = {
 export default function Header({ total }: HeaderProps) {
   return (
     <Section className="flex justify-between">
-      <h1 className="font-mono text-xs whitespace-pre md:text-sm">
+      <h1 className="font-mono text-xs whitespace-pre md:text-sm font-bold">
         {ASCII_ART.join("\n")}
       </h1>
 

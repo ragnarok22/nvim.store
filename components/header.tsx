@@ -7,7 +7,7 @@ const ASCII_ART = [
   " / __| __/ _ \\| '__/ _ \\ | '_ \\ \\ / / | '_ ` _ \\",
   " \\__ \\ || (_) | | |  __/_| | | \\ V /| | | | | | |",
   " |___/\\__\\___/|_|  \\___(_)_| |_|\\_/ |_|_| |_| |_|",
-]
+];
 
 export default function Header() {
   return (
@@ -22,5 +22,5 @@ export default function Header() {
         <span>Press ? for help</span>
       </div>
     </Section>
-  )
+  );
 }

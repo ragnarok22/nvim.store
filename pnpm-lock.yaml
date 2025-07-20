@@ -10,6 +10,15 @@ importers:
       clsx:
         specifier: ^2.1.1
         version: 2.1.1
+      highlight.js:
+        specifier: ^11.11.1
+        version: 11.11.1
+      marked:
+        specifier: ^16.1.1
+        version: 16.1.1
+      marked-highlight:
+        specifier: ^2.2.2
+        version: 2.2.2(marked@16.1.1)
       next:
         specifier: 15.4.2
         version: 15.4.2(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
@@ -1798,6 +1807,13 @@ packages:
       }
     engines: { node: ">= 0.4" }
 
+  highlight.js@11.11.1:
+    resolution:
+      {
+        integrity: sha512-Xwwo44whKBVCYoliBQwaPvtd/2tYFkRQtXDWj1nackaV2JPXx3L0+Jvd8/qCJ2p+ML0/XVkJ2q+Mr+UVdpJK5w==,
+      }
+    engines: { node: ">=12.0.0" }
+
   ignore@5.3.2:
     resolution:
       {
@@ -2239,6 +2255,22 @@ packages:
       {
         integrity: sha512-sNPKHvyjVf7gyjwS4xGTaW/mCnF8wnjtifKBEhxfZ7E/S8tQ0rssrwGNn6q8JH/ohItJfSQp9mBtQYuTlH5QnA==,
       }
+
+  marked-highlight@2.2.2:
+    resolution:
+      {
+        integrity: sha512-KlHOP31DatbtPPXPaI8nx1KTrG3EW0Z5zewCwpUj65swbtKOTStteK3sNAjBqV75Pgo3fNEVNHeptg18mDuWgw==,
+      }
+    peerDependencies:
+      marked: ">=4 <17"
+
+  marked@16.1.1:
+    resolution:
+      {
+        integrity: sha512-ij/2lXfCRT71L6u0M29tJPhP0bM5shLL3u5BePhFwPELj2blMJ6GDtD7PfJhRLhJ/c2UwrK17ySVcDzy2YHjHQ==,
+      }
+    engines: { node: ">= 20" }
+    hasBin: true
 
   math-intrinsics@1.1.0:
     resolution:
@@ -4188,6 +4220,8 @@ snapshots:
     dependencies:
       function-bind: 1.1.2
 
+  highlight.js@11.11.1: {}
+
   ignore@5.3.2: {}
 
   ignore@7.0.5: {}
@@ -4430,6 +4464,12 @@ snapshots:
   magic-string@0.30.17:
     dependencies:
       "@jridgewell/sourcemap-codec": 1.5.4
+
+  marked-highlight@2.2.2(marked@16.1.1):
+    dependencies:
+      marked: 16.1.1
+
+  marked@16.1.1: {}
 
   math-intrinsics@1.1.0: {}
 

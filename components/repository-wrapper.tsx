@@ -19,8 +19,8 @@ export default function RepositoryWrapper({
 
   return (
     <QueryClientProvider client={queryClient}>
-      <div className="flex gap-3 mt-3 flex-1 overflow-hidden">
-        <div className="w-1/3 h-full relative">
+      <div className="flex gap-3 mt-3 flex-1 overflow-hidden flex-col md:flex-row">
+        <div className="w-full md:w-1/3 h-52 md:h-full relative">
           <div className="overflow-hidden h-full">
             <RepoList
               repositories={repositories}
@@ -29,7 +29,8 @@ export default function RepositoryWrapper({
             />
           </div>
         </div>
-        <div className="w-2/3 h-full overflow-hidden">
+
+        <div className="w-full md:w-2/3 h-full overflow-hidden">
           <RepoDescription repo={selected} />
         </div>
       </div>

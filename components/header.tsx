@@ -15,12 +15,12 @@ type HeaderProps = {
 
 export default function Header({ total }: HeaderProps) {
   return (
-    <Section className="flex justify-between">
+    <Section className="flex justify-between flex-col md:flex-row">
       <h1 className="font-mono text-xs whitespace-pre md:text-sm font-bold">
         {ASCII_ART.join("\n")}
       </h1>
 
-      <div className="flex flex-col font-mono">
+      <div className="flex flex-col font-mono mt-3 md:mt-0 items-end">
         <span>Filter: {"None"}</span>
         <span>Showing 100 of {total} plugins</span>
         <span>Press ? for help</span>

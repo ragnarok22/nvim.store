@@ -1,6 +1,5 @@
 import Header from "@/components/header";
-import RepoDescription from "@/components/repo-description";
-import RepoList from "@/components/repo-list";
+import RepositoryWrapper from "@/components/repository-wrapper";
 import { Repository } from "@/lib/definitions";
 
 const REPOS_URL =
@@ -12,20 +11,12 @@ export default async function Home() {
     repositories: Repository[];
     total_repositories: number;
   };
-  const selected = repositories[0];
 
   return (
     <div className="p-3">
       <Header total={total_repositories} />
 
-      <div className="flex gap-3 mt-3 w-full">
-        <div className="w-1/3">
-          <RepoList repositories={repositories} />
-        </div>
-        <div className="w-2/3">
-          <RepoDescription repo={selected} />
-        </div>
-      </div>
+      <RepositoryWrapper repositories={repositories} />
     </div>
   );
 }

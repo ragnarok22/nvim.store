@@ -8,7 +8,10 @@ type RepoItemProps = {
 
 export default function RepoItem({ item, onClick }: RepoItemProps) {
   return (
-    <div className="font-mono rounded-sm p-1 hover:bg-blue-500 cursor-pointer">
+    <div
+      className="font-mono rounded-sm p-1 hover:bg-blue-500 cursor-pointer"
+      onClick={onClick}
+    >
       <span>{item.full_name}</span>
 
       <div className="flex gap-2">

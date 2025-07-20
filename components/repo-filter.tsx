@@ -2,7 +2,9 @@ import { useStore } from "@/lib/store";
 import Section from "./section";
 
 export default function RepoFilter() {
-  const { filter, setFilter } = useStore();
+  const { filter, setFilter, showFilter } = useStore();
+
+  if (!showFilter) return null;
 
   return (
     <Section className="relative w-full mb-3">

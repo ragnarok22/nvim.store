@@ -2,17 +2,36 @@
 
 import { useEffect, useState } from "react";
 import Section from "./section";
+import { useStore } from "@/lib/store";
+
+type Shortcut = {
+  description: string;
+  action: () => void;
+};
 
 export default function Help() {
+  const { toggleFilter } = useStore();
   const [isOpen, setIsOpen] = useState(false);
+
+  const shortcuts: Record<string, Shortcut> = {
+    "?": {
+      description: "Open help",
+      action: () => setIsOpen(true),
+    },
+    Escape: {
+      description: "Close help",
+      action: () => setIsOpen(false),
+    },
+    f: {
+      description: "Toggle filter",
+      action: toggleFilter,
+    },
+  };
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "?") {
-        setIsOpen(true);
-      } else if (event.key === "Escape") {
-        setIsOpen(false);
-      }
+      const shortcut = shortcuts[event.key];
+      if (shortcut) shortcut.action();
     };
 
     window.addEventListener("keydown", handleKeyDown);
@@ -37,14 +56,12 @@ export default function Help() {
             </tr>
           </thead>
           <tbody className="pt-1">
-            <tr>
-              <td>?</td>
-              <td className="text-right">Open help</td>
-            </tr>
-            <tr>
-              <td>ESC</td>
-              <td className="text-right">Close help</td>
-            </tr>
+            {Object.entries(shortcuts).map(([key, { description }]) => (
+              <tr key={key}>
+                <td>{key}</td>
+                <td className="text-right">{description}</td>
+              </tr>
+            ))}
           </tbody>
         </table>
       </Section>

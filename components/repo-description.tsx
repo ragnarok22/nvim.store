@@ -1,11 +1,14 @@
 import { Repository } from "@/lib/definitions";
 import Section from "./section";
+import { useRetrieveReadme } from "@/lib/api";
 
 type RepoDescriptionProps = {
   repo: Repository;
 };
 
 export default function RepoDescription({ repo }: RepoDescriptionProps) {
+  const { data } = useRetrieveReadme(repo);
+
   return (
     <Section className="h-full">
       <h3 className="text-lg font-bold">{repo.full_name}</h3>
@@ -26,6 +29,13 @@ export default function RepoDescription({ repo }: RepoDescriptionProps) {
           Updated: {new Date(repo.updated_at).toDateString()}
         </time>
       </div>
+
+      {data && (
+        <div
+          className="prose prose-invert"
+          dangerouslySetInnerHTML={{ __html: data }}
+        />
+      )}
     </Section>
   );
 }

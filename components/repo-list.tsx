@@ -1,6 +1,7 @@
 import { Repository } from "@/lib/definitions";
 import Section from "./section";
 import RepoItem from "./repo-item";
+import RepoFilter from "./repo-filter";
 
 type RepoListProps = {
   repositories: Repository[];
@@ -15,6 +16,7 @@ export default function RepoList({
 }: RepoListProps) {
   return (
     <Section className="h-full overflow-y-auto">
+      <RepoFilter />
       <ul>
         {repositories.slice(0, 100).map((repository, index) => (
           <li key={index}>

@@ -9,7 +9,11 @@ const ASCII_ART = [
   " |___/\\__\\___/|_|  \\___(_)_| |_|\\_/ |_|_| |_| |_|",
 ];
 
-export default function Header() {
+type HeaderProps = {
+  total: number;
+};
+
+export default function Header({ total }: HeaderProps) {
   return (
     <Section className="flex justify-between">
       <h1 className="font-mono text-xs whitespace-pre md:text-sm">
@@ -18,7 +22,7 @@ export default function Header() {
 
       <div className="flex flex-col">
         <span>Filter: {"None"}</span>
-        <span>Showing 100 of 100 plugins</span>
+        <span>Showing 100 of {total} plugins</span>
         <span>Press ? for help</span>
       </div>
     </Section>

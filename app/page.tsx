@@ -1,17 +1,9 @@
 import Header from "@/components/header";
 import RepositoryWrapper from "@/components/repository-wrapper";
-import { Repository } from "@/lib/definitions";
-
-const REPOS_URL =
-  "https://gist.githubusercontent.com/alex-popov-tech/93dcd3ce38cbc7a0b3245b9b59b56c9b/raw/store.nvim-repos.json";
+import { retrievePlugins } from "@/lib/api";
 
 export default async function Home() {
-  const res = await fetch(REPOS_URL);
-  const { repositories, total_repositories } = (await res.json()) as {
-    repositories: Repository[];
-    total_repositories: number;
-  };
-
+  const { repositories, total_repositories } = await retrievePlugins();
   return (
     <div className="flex flex-col p-3 w-full h-full">
       <Header total={total_repositories} />

@@ -27,7 +27,7 @@ export default function RepositoryWrapper({
             setSelected={setSelected}
           />
         </div>
-        <div className="w-2/3 h-full overflow-y-auto">
+        <div className="w-2/3 h-full overflow-hidden">
           <RepoDescription repo={selected} />
         </div>
       </div>

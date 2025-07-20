@@ -10,7 +10,7 @@ export default function RepoDescription({ repo }: RepoDescriptionProps) {
   const { data } = useRetrieveReadme(repo);
 
   return (
-    <Section className="h-full">
+    <Section className="h-full overflow-auto">
       <h3 className="text-lg font-bold">{repo.full_name}</h3>
       <h4 className="text-sm">{repo.description}</h4>
 

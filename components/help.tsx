@@ -28,6 +28,13 @@ export default function Help() {
     },
   };
 
+  const tableShortcuts = {
+    ...shortcuts,
+    I: {
+      description: "Show install guide",
+    },
+  };
+
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.target instanceof HTMLInputElement) return;
@@ -61,10 +68,10 @@ export default function Help() {
             </tr>
           </thead>
           <tbody className="pt-1">
-            {Object.entries(shortcuts).map(([key, { description }]) => (
+            {Object.entries(tableShortcuts).map(([key, item]) => (
               <tr key={key}>
                 <td>{key}</td>
-                <td className="text-right">{description}</td>
+                <td className="text-right">{item.description}</td>
               </tr>
             ))}
           </tbody>

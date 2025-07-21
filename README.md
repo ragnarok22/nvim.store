@@ -13,3 +13,16 @@ pnpm dev
 ```
 
 This will start Next.js in development mode.
+
+## Filtering repositories
+
+Use the search box (press `f` to toggle) to filter the list. You can search by
+repository name or by topic using the `topic:<name>` syntax. Combining filters
+works as expected, for example:
+
+```bash
+topic:lsp python
+```
+
+The above will show repositories tagged with `lsp` whose names include
+`python`.

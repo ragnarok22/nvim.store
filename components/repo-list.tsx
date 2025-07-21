@@ -3,6 +3,7 @@ import Section from "./section";
 import RepoItem from "./repo-item";
 import RepoFilter from "./repo-filter";
 import { useStore } from "@/lib/store";
+import { filterRepositories } from "@/lib/filters";
 
 type RepoListProps = {
   repositories: Repository[];
@@ -17,12 +18,13 @@ export default function RepoList({
 }: RepoListProps) {
   const { filter } = useStore();
 
+  const filtered = filterRepositories(repositories, filter);
+
   return (
     <Section className="h-full overflow-y-auto">
       <RepoFilter />
       <ul>
-        {repositories
-          .filter((repo) => repo.full_name.includes(filter))
+        {filtered
           .slice(0, 100)
           .map((repository, index) => (
             <li key={index}>

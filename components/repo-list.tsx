@@ -24,17 +24,15 @@ export default function RepoList({
     <Section className="h-full overflow-y-auto">
       <RepoFilter />
       <ul>
-        {filtered
-          .slice(0, 100)
-          .map((repository, index) => (
-            <li key={index}>
-              <RepoItem
-                item={repository}
-                onClick={() => setSelected(repository)}
-                isSelected={repository === selected}
-              />
-            </li>
-          ))}
+        {filtered.slice(0, 100).map((repository, index) => (
+          <li key={index}>
+            <RepoItem
+              item={repository}
+              onClick={() => setSelected(repository)}
+              isSelected={repository === selected}
+            />
+          </li>
+        ))}
       </ul>
     </Section>
   );

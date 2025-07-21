@@ -32,6 +32,6 @@ export const useStore = create<State & Actions>()(
     {
       name: "store-theme",
       partialize: (state) => ({ theme: state.theme }),
-    }
-  )
+    },
+  ),
 );

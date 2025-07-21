@@ -29,7 +29,7 @@ export default function InstallModal() {
       <Section className="max-w-10/12 min-w-[200px] font-mono">
         <h3 className="text-lg font-bold mb-2">Install store.nvim</h3>
         <pre className="text-sm whitespace-pre-wrap">
-{`-- Using lazy.nvim
+          {`-- Using lazy.nvim
 {
   'alex-popov-tech/store.nvim',
   dependencies = {

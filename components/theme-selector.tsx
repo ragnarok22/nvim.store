@@ -10,7 +10,7 @@ export default function ThemeSelector() {
     <select
       className="bg-background text-foreground border border-foreground rounded px-1"
       value={theme}
-      onChange={(e) => setTheme(e.target.value as typeof themes[number])}
+      onChange={(e) => setTheme(e.target.value as (typeof themes)[number])}
     >
       {themes.map((th) => (
         <option key={th} value={th}>

@@ -1,4 +1,5 @@
 import Section from "./section";
+import ThemeSelector from "./theme-selector";
 
 const ASCII_ART = [
   "      _                              _",
@@ -20,7 +21,8 @@ export default function Header({ total }: HeaderProps) {
         {ASCII_ART.join("\n")}
       </h1>
 
-      <div className="flex flex-col font-mono mt-3 md:mt-0 items-end">
+      <div className="flex flex-col font-mono mt-3 md:mt-0 items-end gap-1">
+        <ThemeSelector />
         <span>Filter: {"None"}</span>
         <span>Showing 100 of {total} plugins</span>
         <span>Press ? for help</span>

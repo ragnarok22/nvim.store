@@ -1,8 +1,26 @@
 @import "tailwindcss";
 
 :root {
-  /* --background: #1D2121; */
-  /* --foreground: #E5D8AF; */
+  --background: #1e2031;
+  --foreground: #8aadf5;
+}
+
+html[data-theme="latte"] {
+  --background: #eff1f5;
+  --foreground: #4c4f69;
+}
+
+html[data-theme="frappe"] {
+  --background: #303446;
+  --foreground: #c6d0f5;
+}
+
+html[data-theme="macchiato"] {
+  --background: #24273a;
+  --foreground: #cad3f5;
+}
+
+html[data-theme="mocha"] {
   --background: #1e2031;
   --foreground: #8aadf5;
 }

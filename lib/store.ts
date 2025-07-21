@@ -1,4 +1,5 @@
 import { create } from "zustand";
+import { persist } from "zustand/middleware";
 
 export type Theme = "latte" | "frappe" | "macchiato" | "mocha";
 
@@ -20,9 +21,17 @@ const initialState: State = {
   theme: "mocha",
 };
 
-export const useStore = create<State & Actions>()((set) => ({
-  ...initialState,
-  setFilter: (filter: string) => set({ filter }),
-  toggleFilter: () => set((state) => ({ showFilter: !state.showFilter })),
-  setTheme: (theme: Theme) => set({ theme }),
-}));
+export const useStore = create<State & Actions>()(
+  persist(
+    (set) => ({
+      ...initialState,
+      setFilter: (filter: string) => set({ filter }),
+      toggleFilter: () => set((state) => ({ showFilter: !state.showFilter })),
+      setTheme: (theme: Theme) => set({ theme }),
+    }),
+    {
+      name: "store-theme",
+      partialize: (state) => ({ theme: state.theme }),
+    }
+  )
+);

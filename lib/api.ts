@@ -1,6 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
 import { Repository } from "./definitions";
-import { marked } from "./markdown";
 
 const REPOS_URL =
   "https://gist.githubusercontent.com/alex-popov-tech/93dcd3ce38cbc7a0b3245b9b59b56c9b/raw/store.nvim-repos.json";
@@ -21,14 +20,12 @@ export const useRetrieveReadme = (repo: Repository) => {
         `https://api.github.com/repos/${repo.full_name}/readme`,
         {
           headers: {
-            Accept: "application/vnd.github.v3+json",
+            Accept: "application/vnd.github.v3.html",
           },
         },
       );
 
-      const readmeJSON = await response.json();
-      const readme = atob(readmeJSON.content);
-      return await marked.parse(readme);
+      return await response.text();
     },
     enabled: !!repo.full_name,
   });

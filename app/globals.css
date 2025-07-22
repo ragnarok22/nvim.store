@@ -66,3 +66,31 @@ body {
   border-radius: 4px;
   border: 2px solid var(--color-foreground);
 }
+
+/* Styles for repository READMEs */
+.repo-readme {
+  font-family: var(--font-mono);
+  line-height: 1.5;
+}
+
+.repo-readme p {
+  margin: 0.5rem 0;
+}
+
+.repo-readme ul {
+  list-style: disc;
+  padding-left: 1.25rem;
+  margin: 0.5rem 0;
+}
+
+.repo-readme li {
+  margin-left: 0.25rem;
+}
+
+.repo-readme pre {
+  background: var(--color-foreground);
+  color: var(--color-background);
+  padding: 0.5rem;
+  border-radius: 0.25rem;
+  overflow: auto;
+}

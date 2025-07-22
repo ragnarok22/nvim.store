@@ -14,8 +14,6 @@
     "@tanstack/react-query": "^5.83.0",
     "clsx": "^2.1.1",
     "highlight.js": "^11.11.1",
-    "marked": "^16.1.1",
-    "marked-highlight": "^2.2.2",
     "next": "15.4.2",
     "react": "19.1.0",
     "react-dom": "19.1.0",

@@ -28,3 +28,11 @@ topic:lsp python
 
 The above will show repositories tagged with `lsp` whose names include
 `python`.
+
+## Sorting repositories
+
+Use the sort dropdown above the list to reorder results. The available options
+are:
+
+- **Most stars** – sort repositories by star count in descending order.
+- **Recently updated** – sort repositories by their latest update date.

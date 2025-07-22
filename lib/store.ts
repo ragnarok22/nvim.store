@@ -31,7 +31,14 @@ export const useStore = create<State & Actions>()(
     (set) => ({
       ...initialState,
       setFilter: (filter: string) => set({ filter }),
-      toggleFilter: () => set((state) => ({ showFilter: !state.showFilter })),
+      toggleFilter: () =>
+        set((state) => {
+          const showFilter = !state.showFilter;
+          return {
+            showFilter,
+            filter: showFilter ? state.filter : "",
+          };
+        }),
       setTheme: (theme: Theme) => set({ theme }),
       setSort: (sort: SortOption) => set({ sort }),
     }),

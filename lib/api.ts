@@ -25,6 +25,22 @@ export const useRetrieveReadme = (repo: Repository) => {
         },
       );
 
+      const contentType = response.headers.get("content-type") ?? "";
+      if (contentType.includes("json")) {
+        const data = (await response.json()) as {
+          content?: string;
+          encoding?: string;
+        };
+        if (data.content && data.encoding === "base64") {
+          const base64 = data.content.replace(/\n/g, "");
+          if (typeof atob === "function") {
+            return atob(base64);
+          }
+          return Buffer.from(base64, "base64").toString("utf-8");
+        }
+        return JSON.stringify(data);
+      }
+
       return await response.text();
     },
     enabled: !!repo.full_name,

@@ -42,3 +42,14 @@ are:
 You can move through the plugin list using **j** and **k** when Vim motions are
 enabled. Toggle this option in the header; it is automatically disabled on
 mobile devices.
+
+## Keyboard shortcuts
+
+The interface is keyboard-friendly. Press `?` to open a cheat sheet with the
+following shortcuts:
+
+- `?` – open help
+- `Escape` – close help
+- `f` – toggle the filter input
+- `I` – show installation instructions
+- `j`/`k` – move down/up the repository list when Vim motions are enabled

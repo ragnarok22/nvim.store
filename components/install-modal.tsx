@@ -1,32 +1,40 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import Section from "./section";
+import { useStore } from "@/lib/store";
 
 export default function InstallModal() {
-  const [isOpen, setIsOpen] = useState(false);
+  const { showInstall, setShowInstall, vimMode } = useStore();
 
   useEffect(() => {
+    if (!vimMode) return;
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.target instanceof HTMLInputElement) return;
 
       if (event.key === "I") {
         event.preventDefault();
-        setIsOpen(true);
+        setShowInstall(true);
       } else if (event.key === "Escape") {
-        setIsOpen(false);
+        setShowInstall(false);
       }
     };
 
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, []);
+  }, [setShowInstall, vimMode]);
 
-  if (!isOpen) return null;
+  if (!showInstall) return null;
 
   return (
     <div className="absolute inset-0 h-full w-full bg-black/60 backdrop-blur-xs flex justify-center items-center">
-      <Section className="max-w-10/12 min-w-[200px] font-mono">
+      <Section className="max-w-10/12 min-w-[200px] font-mono relative">
+        <button
+          onClick={() => setShowInstall(false)}
+          className="absolute right-2 top-2 underline"
+        >
+          Close
+        </button>
         <h3 className="text-lg font-bold mb-2">Install store.nvim</h3>
         <pre className="text-sm whitespace-pre-wrap">
           {`-- Using lazy.nvim

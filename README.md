@@ -50,7 +50,7 @@ When Vim motions are enabled you can use keyboard shortcuts. Press `?` to open a
 cheat sheet with the following keys:
 
 - `?` – open help
-- `Escape` – close help
+- `Escape` – close the help or install overlays
 - `f` – toggle the filter input
 - `I` – show installation instructions
 - `j`/`k` – move down/up the repository list

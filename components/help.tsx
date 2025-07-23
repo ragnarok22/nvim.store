@@ -19,8 +19,11 @@ export default function Help() {
       action: () => setShowHelp(true),
     },
     Escape: {
-      description: "Close help",
-      action: () => setShowHelp(false),
+      description: "Close overlays",
+      action: () => {
+        setShowHelp(false);
+        setShowInstall(false);
+      },
     },
     f: {
       description: "Toggle filter",

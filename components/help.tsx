@@ -1,65 +1,41 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import Section from "./section";
 import { useStore } from "@/lib/store";
 
-type Shortcut = {
-  description: string;
-  action: () => void;
-};
-
 export default function Help() {
-  const { toggleFilter } = useStore();
-  const [isOpen, setIsOpen] = useState(false);
+  const { vimMode, showHelp, setShowHelp } = useStore();
 
-  const shortcuts: Record<string, Shortcut> = {
-    "?": {
-      description: "Open help",
-      action: () => setIsOpen(true),
-    },
-    Escape: {
-      description: "Close help",
-      action: () => setIsOpen(false),
-    },
-    f: {
-      description: "Toggle filter",
-      action: toggleFilter,
-    },
+  const shortcuts: Record<string, string> = {
+    "?": "Open help",
+    Escape: "Close overlays",
+    f: "Toggle filter",
+    I: "Show install guide",
   };
 
-  const tableShortcuts = {
+  const tableShortcuts: Record<string, string> = {
     ...shortcuts,
-    I: {
-      description: "Show install guide",
-    },
+    ...(vimMode
+      ? {
+          j: "Next repository",
+          k: "Previous repository",
+        }
+      : {}),
   };
 
-  useEffect(() => {
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.target instanceof HTMLInputElement) return;
-
-      const shortcut = shortcuts[event.key];
-      if (shortcut) {
-        event.preventDefault();
-        shortcut.action();
-      }
-    };
-
-    window.addEventListener("keydown", handleKeyDown);
-
-    return () => {
-      window.removeEventListener("keydown", handleKeyDown);
-    };
-  }, []);
-
-  if (!isOpen) {
+  if (!showHelp) {
     return null;
   }
 
   return (
     <div className="absolute h-full w-full inset-0 bg-black/60 backdrop-blur-xs flex justify-center items-center">
-      <Section className="min-w-[200px] max-w-10/12">
+      <Section className="min-w-[200px] max-w-10/12 relative">
+        <button
+          onClick={() => setShowHelp(false)}
+          className="absolute right-2 top-2 underline"
+        >
+          Close
+        </button>
         <table className="table-auto w-full font-mono">
           <thead className="">
             <tr className="border-b">
@@ -68,10 +44,10 @@ export default function Help() {
             </tr>
           </thead>
           <tbody className="pt-1">
-            {Object.entries(tableShortcuts).map(([key, item]) => (
+            {Object.entries(tableShortcuts).map(([key, description]) => (
               <tr key={key}>
                 <td>{key}</td>
-                <td className="text-right">{item.description}</td>
+                <td className="text-right">{description}</td>
               </tr>
             ))}
           </tbody>

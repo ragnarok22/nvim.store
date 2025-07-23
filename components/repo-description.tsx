@@ -1,6 +1,9 @@
+import { useEffect, useRef } from "react";
 import { Repository } from "@/lib/definitions";
 import Section from "./section";
 import { useRetrieveReadme } from "@/lib/api";
+import hljs from "highlight.js";
+import "highlight.js/styles/github-dark.css";
 
 type RepoDescriptionProps = {
   repo: Repository;
@@ -8,6 +11,15 @@ type RepoDescriptionProps = {
 
 export default function RepoDescription({ repo }: RepoDescriptionProps) {
   const { data } = useRetrieveReadme(repo);
+  const readmeRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (data && readmeRef.current) {
+      readmeRef.current.querySelectorAll('pre code').forEach((block) => {
+        hljs.highlightElement(block as HTMLElement);
+      });
+    }
+  }, [data]);
 
   return (
     <Section className="h-full overflow-auto">
@@ -49,6 +61,7 @@ export default function RepoDescription({ repo }: RepoDescriptionProps) {
 
       {data && (
         <div
+          ref={readmeRef}
           className="repo-readme font-mono"
           dangerouslySetInnerHTML={{ __html: data }}
         />

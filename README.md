@@ -10,7 +10,7 @@ You can use the same UI and all of the plugin information inside Neovim with the
 
 To run the development server:
 
-```bash
+```shell
 pnpm dev
 ```
 
@@ -22,7 +22,7 @@ Use the search box (press `f` to toggle) to filter the list. You can search by
 repository name or by topic using the `topic:<name>` syntax. Combining filters
 works as expected, for example:
 
-```bash
+```shell
 topic:lsp python
 ```
 

@@ -1,68 +1,27 @@
 "use client";
 
-import { useEffect } from "react";
 import Section from "./section";
 import { useStore } from "@/lib/store";
 
-type Shortcut = {
-  description: string;
-  action: () => void;
-};
-
 export default function Help() {
-  const { toggleFilter, vimMode, showHelp, setShowHelp, setShowInstall } =
-    useStore();
+  const { vimMode, showHelp, setShowHelp } = useStore();
 
-  const shortcuts: Record<string, Shortcut> = {
-    "?": {
-      description: "Open help",
-      action: () => setShowHelp(true),
-    },
-    Escape: {
-      description: "Close overlays",
-      action: () => {
-        setShowHelp(false);
-        setShowInstall(false);
-      },
-    },
-    f: {
-      description: "Toggle filter",
-      action: toggleFilter,
-    },
-    I: {
-      description: "Show install guide",
-      action: () => setShowInstall(true),
-    },
+  const shortcuts: Record<string, string> = {
+    "?": "Open help",
+    Escape: "Close overlays",
+    f: "Toggle filter",
+    I: "Show install guide",
   };
 
-  const tableShortcuts = {
+  const tableShortcuts: Record<string, string> = {
     ...shortcuts,
     ...(vimMode
       ? {
-          j: { description: "Next repository" },
-          k: { description: "Previous repository" },
+          j: "Next repository",
+          k: "Previous repository",
         }
       : {}),
   };
-
-  useEffect(() => {
-    if (!vimMode) return;
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.target instanceof HTMLInputElement) return;
-
-      const shortcut = shortcuts[event.key];
-      if (shortcut) {
-        event.preventDefault();
-        shortcut.action();
-      }
-    };
-
-    window.addEventListener("keydown", handleKeyDown);
-
-    return () => {
-      window.removeEventListener("keydown", handleKeyDown);
-    };
-  }, [shortcuts, vimMode]);
 
   if (!showHelp) {
     return null;
@@ -85,10 +44,10 @@ export default function Help() {
             </tr>
           </thead>
           <tbody className="pt-1">
-            {Object.entries(tableShortcuts).map(([key, item]) => (
+            {Object.entries(tableShortcuts).map(([key, description]) => (
               <tr key={key}>
                 <td>{key}</td>
-                <td className="text-right">{item.description}</td>
+                <td className="text-right">{description}</td>
               </tr>
             ))}
           </tbody>

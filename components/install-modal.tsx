@@ -1,28 +1,10 @@
 "use client";
 
-import { useEffect } from "react";
 import Section from "./section";
 import { useStore } from "@/lib/store";
 
 export default function InstallModal() {
-  const { showInstall, setShowInstall, vimMode } = useStore();
-
-  useEffect(() => {
-    if (!vimMode) return;
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.target instanceof HTMLInputElement) return;
-
-      if (event.key === "I") {
-        event.preventDefault();
-        setShowInstall(true);
-      } else if (event.key === "Escape") {
-        setShowInstall(false);
-      }
-    };
-
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [setShowInstall, vimMode]);
+  const { showInstall, setShowInstall } = useStore();
 
   if (!showInstall) return null;
 

@@ -3,8 +3,9 @@
 import { Repository } from "@/lib/definitions";
 import RepoDescription from "./repo-description";
 import RepoList from "./repo-list";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { useStore } from "@/lib/store";
 
 const queryClient = new QueryClient();
 
@@ -16,6 +17,36 @@ export default function RepositoryWrapper({
   repositories,
 }: RepositoryWrapperProps) {
   const [selected, setSelected] = useState(repositories[0]);
+  const { vimMode } = useStore();
+
+  const isMobile =
+    typeof navigator !== "undefined" &&
+    /Mobi|Android|iPhone|iPad/i.test(navigator.userAgent);
+
+  useEffect(() => {
+    if (!vimMode || isMobile) return;
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.target instanceof HTMLInputElement) return;
+      if (event.key === "j" || event.key === "ArrowDown") {
+        event.preventDefault();
+        setSelected((current) => {
+          const idx = repositories.indexOf(current);
+          return idx < repositories.length - 1
+            ? repositories[idx + 1]
+            : current;
+        });
+      } else if (event.key === "k" || event.key === "ArrowUp") {
+        event.preventDefault();
+        setSelected((current) => {
+          const idx = repositories.indexOf(current);
+          return idx > 0 ? repositories[idx - 1] : current;
+        });
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [vimMode, isMobile, repositories]);
 
   return (
     <QueryClientProvider client={queryClient}>

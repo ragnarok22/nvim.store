@@ -15,7 +15,7 @@ export default function RepoDescription({ repo }: RepoDescriptionProps) {
 
   useEffect(() => {
     if (data && readmeRef.current) {
-      readmeRef.current.querySelectorAll('pre code').forEach((block) => {
+      readmeRef.current.querySelectorAll("pre code").forEach((block) => {
         hljs.highlightElement(block as HTMLElement);
       });
     }

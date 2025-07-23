@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import Section from "./section";
 import { useStore } from "@/lib/store";
 
@@ -10,32 +10,43 @@ type Shortcut = {
 };
 
 export default function Help() {
-  const { toggleFilter } = useStore();
-  const [isOpen, setIsOpen] = useState(false);
+  const { toggleFilter, vimMode, showHelp, setShowHelp, setShowInstall } =
+    useStore();
 
   const shortcuts: Record<string, Shortcut> = {
     "?": {
       description: "Open help",
-      action: () => setIsOpen(true),
+      action: () => setShowHelp(true),
     },
     Escape: {
-      description: "Close help",
-      action: () => setIsOpen(false),
+      description: "Close overlays",
+      action: () => {
+        setShowHelp(false);
+        setShowInstall(false);
+      },
     },
     f: {
       description: "Toggle filter",
       action: toggleFilter,
     },
+    I: {
+      description: "Show install guide",
+      action: () => setShowInstall(true),
+    },
   };
 
   const tableShortcuts = {
     ...shortcuts,
-    I: {
-      description: "Show install guide",
-    },
+    ...(vimMode
+      ? {
+          j: { description: "Next repository" },
+          k: { description: "Previous repository" },
+        }
+      : {}),
   };
 
   useEffect(() => {
+    if (!vimMode) return;
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.target instanceof HTMLInputElement) return;
 
@@ -51,15 +62,21 @@ export default function Help() {
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
     };
-  }, []);
+  }, [shortcuts, vimMode]);
 
-  if (!isOpen) {
+  if (!showHelp) {
     return null;
   }
 
   return (
     <div className="absolute h-full w-full inset-0 bg-black/60 backdrop-blur-xs flex justify-center items-center">
-      <Section className="min-w-[200px] max-w-10/12">
+      <Section className="min-w-[200px] max-w-10/12 relative">
+        <button
+          onClick={() => setShowHelp(false)}
+          className="absolute right-2 top-2 underline"
+        >
+          Close
+        </button>
         <table className="table-auto w-full font-mono">
           <thead className="">
             <tr className="border-b">

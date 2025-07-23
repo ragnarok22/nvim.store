@@ -1,3 +1,5 @@
+"use client";
+
 import Section from "./section";
 import ThemeSelector from "./theme-selector";
 import VimToggle from "./vim-toggle";

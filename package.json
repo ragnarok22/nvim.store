@@ -20,18 +20,18 @@
     "zustand": "^5.0.6"
   },
   "devDependencies": {
-    "@eslint/eslintrc": "^3",
-    "@tailwindcss/postcss": "^4",
+    "@eslint/eslintrc": "^3.3.1",
+    "@tailwindcss/postcss": "^4.1.11",
     "@tanstack/eslint-plugin-query": "^5.81.2",
-    "@types/node": "^20",
-    "@types/react": "^19",
-    "@types/react-dom": "^19",
-    "eslint": "^9",
+    "@types/node": "^20.19.9",
+    "@types/react": "^19.1.8",
+    "@types/react-dom": "^19.1.6",
+    "eslint": "^9.31.0",
     "eslint-config-next": "15.4.2",
     "eslint-config-prettier": "^10.1.8",
     "prettier": "^3.6.2",
-    "tailwindcss": "^4",
-    "typescript": "^5",
+    "tailwindcss": "^4.1.11",
+    "typescript": "^5.8.3",
     "vitest": "^3.2.4"
   },
   "packageManager": "pnpm@10.13.1+sha512.37ebf1a5c7a30d5fabe0c5df44ee8da4c965ca0c5af3dbab28c3a1681b70a256218d05c81c9c0dcf767ef6b8551eb5b960042b9ed4300c59242336377e01cfad"

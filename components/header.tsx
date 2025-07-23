@@ -4,6 +4,7 @@ import Section from "./section";
 import ThemeSelector from "./theme-selector";
 import VimToggle from "./vim-toggle";
 import { useEffect } from "react";
+
 import { useStore } from "@/lib/store";
 
 const ASCII_ART = [
@@ -54,6 +55,7 @@ export default function Header({ total }: HeaderProps) {
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [vimMode, toggleFilter, setShowHelp, setShowInstall]);
+
   return (
     <Section className="flex justify-between flex-col md:flex-row">
       <h1 className="font-mono text-[0.4rem] whitespace-pre sm:text-xs md:text-sm font-bold">

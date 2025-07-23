@@ -11,6 +11,7 @@ export default function Help() {
     Escape: "Close overlays",
     f: "Toggle filter",
     I: "Show install guide",
+
   };
 
   const tableShortcuts: Record<string, string> = {
@@ -22,6 +23,31 @@ export default function Help() {
         }
       : {}),
   };
+
+          j: { description: "Next repository" },
+          k: { description: "Previous repository" },
+        }
+      : {}),
+  };
+
+  useEffect(() => {
+    if (!vimMode) return;
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.target instanceof HTMLInputElement) return;
+
+      const shortcut = shortcuts[event.key];
+      if (shortcut) {
+        event.preventDefault();
+        shortcut.action();
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [shortcuts, vimMode]);
 
   if (!showHelp) {
     return null;

@@ -36,3 +36,9 @@ are:
 
 - **Most stars** – sort repositories by star count in descending order.
 - **Recently updated** – sort repositories by their latest update date.
+
+## Vim motions
+
+You can move through the plugin list using **j** and **k** when Vim motions are
+enabled. Toggle this option in the header; it is automatically disabled on
+mobile devices.

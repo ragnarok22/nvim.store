@@ -10,7 +10,7 @@ type Shortcut = {
 };
 
 export default function Help() {
-  const { toggleFilter } = useStore();
+  const { toggleFilter, vimMode } = useStore();
   const [isOpen, setIsOpen] = useState(false);
 
   const shortcuts: Record<string, Shortcut> = {
@@ -33,6 +33,12 @@ export default function Help() {
     I: {
       description: "Show install guide",
     },
+    ...(vimMode
+      ? {
+          j: { description: "Next repository" },
+          k: { description: "Previous repository" },
+        }
+      : {}),
   };
 
   useEffect(() => {

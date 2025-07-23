@@ -1,5 +1,10 @@
+"use client";
+
 import Section from "./section";
 import ThemeSelector from "./theme-selector";
+import VimToggle from "./vim-toggle";
+import { useEffect } from "react";
+import { useStore } from "@/lib/store";
 
 const ASCII_ART = [
   "      _                              _",
@@ -15,6 +20,40 @@ type HeaderProps = {
 };
 
 export default function Header({ total }: HeaderProps) {
+  const { toggleFilter, setShowHelp, setShowInstall, vimMode } = useStore();
+
+  useEffect(() => {
+    const isMobile =
+      typeof navigator !== "undefined" &&
+      /Mobi|Android|iPhone|iPad/i.test(navigator.userAgent);
+    if (!vimMode || isMobile) return;
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.target instanceof HTMLInputElement) return;
+
+      switch (event.key) {
+        case "?":
+          event.preventDefault();
+          setShowHelp(true);
+          break;
+        case "Escape":
+          setShowHelp(false);
+          setShowInstall(false);
+          break;
+        case "f":
+          event.preventDefault();
+          toggleFilter();
+          break;
+        case "I":
+          event.preventDefault();
+          setShowInstall(true);
+          break;
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [vimMode, toggleFilter, setShowHelp, setShowInstall]);
   return (
     <Section className="flex justify-between flex-col md:flex-row">
       <h1 className="font-mono text-[0.4rem] whitespace-pre sm:text-xs md:text-sm font-bold">
@@ -23,9 +62,19 @@ export default function Header({ total }: HeaderProps) {
 
       <div className="flex flex-col font-mono mt-3 md:mt-0 items-end gap-1">
         <ThemeSelector />
-        <span>Filter: {"None"}</span>
+        <VimToggle />
+        <div className="flex gap-1">
+          <button onClick={toggleFilter} className="underline">
+            Filter
+          </button>
+          <button onClick={() => setShowHelp(true)} className="underline">
+            Help
+          </button>
+          <button onClick={() => setShowInstall(true)} className="underline">
+            Install
+          </button>
+        </div>
         <span>Showing 100 of {total} plugins</span>
-        <span>Press ? for help</span>
       </div>
     </Section>
   );

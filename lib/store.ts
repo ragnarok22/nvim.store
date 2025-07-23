@@ -10,6 +10,9 @@ interface State {
   showFilter: boolean;
   theme: Theme;
   sort: SortOption;
+  vimMode: boolean;
+  showHelp: boolean;
+  showInstall: boolean;
 }
 
 interface Actions {
@@ -17,6 +20,9 @@ interface Actions {
   toggleFilter: () => void;
   setTheme: (theme: Theme) => void;
   setSort: (sort: SortOption) => void;
+  setVimMode: (enabled: boolean) => void;
+  setShowHelp: (show: boolean) => void;
+  setShowInstall: (show: boolean) => void;
 }
 
 const initialState: State = {
@@ -24,6 +30,9 @@ const initialState: State = {
   showFilter: false,
   theme: "mocha",
   sort: "default",
+  vimMode: true,
+  showHelp: false,
+  showInstall: false,
 };
 
 export const useStore = create<State & Actions>()(
@@ -41,10 +50,17 @@ export const useStore = create<State & Actions>()(
         }),
       setTheme: (theme: Theme) => set({ theme }),
       setSort: (sort: SortOption) => set({ sort }),
+      setVimMode: (enabled: boolean) => set({ vimMode: enabled }),
+      setShowHelp: (show: boolean) => set({ showHelp: show }),
+      setShowInstall: (show: boolean) => set({ showInstall: show }),
     }),
     {
       name: "store-theme",
-      partialize: (state) => ({ theme: state.theme, sort: state.sort }),
+      partialize: (state) => ({
+        theme: state.theme,
+        sort: state.sort,
+        vimMode: state.vimMode,
+      }),
     },
   ),
 );

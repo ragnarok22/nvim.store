@@ -29,7 +29,7 @@ export default function Help() {
 
   return (
     <div className="absolute h-full w-full inset-0 bg-black/60 backdrop-blur-xs flex justify-center items-center">
-      <Section className="min-w-[200px] max-w-10/12 relative">
+      <Section className="min-w-[200px] max-w-10/12 relative bg-background">
         <button
           onClick={() => setShowHelp(false)}
           className="absolute right-2 top-2 underline"

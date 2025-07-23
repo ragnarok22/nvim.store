@@ -10,7 +10,7 @@ export default function InstallModal() {
 
   return (
     <div className="absolute inset-0 h-full w-full bg-black/60 backdrop-blur-xs flex justify-center items-center">
-      <Section className="max-w-10/12 min-w-[200px] font-mono relative">
+      <Section className="max-w-10/12 min-w-[200px] font-mono relative bg-background">
         <button
           onClick={() => setShowInstall(false)}
           className="absolute right-2 top-2 underline"

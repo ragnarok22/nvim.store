@@ -21,14 +21,17 @@ export default function InstallModal() {
         <pre className="text-sm whitespace-pre-wrap">
           {`-- Using lazy.nvim
 {
-  'alex-popov-tech/store.nvim',
+  "alex-popov-tech/store.nvim",
   dependencies = {
-    'MunifTanjim/nui.nvim',
-    'nvim-lua/plenary.nvim',
+    "OXY2DEV/markview.nvim", -- optional, for pretty readme preview / help window
   },
-  config = function()
-    require('store').setup()
-  end,
+  cmd = "Store",
+  keys = {
+    { "<leader>s", "<cmd>Store<cr>", desc = "Open Plugin Store" },
+  },
+  opts = {
+    -- optional configuration here
+  },
 }
 `}
         </pre>

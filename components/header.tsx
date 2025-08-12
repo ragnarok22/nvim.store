@@ -58,11 +58,11 @@ export default function Header({ total }: HeaderProps) {
 
   return (
     <Section className="flex justify-between flex-col md:flex-row">
-      <h1 className="font-mono text-[0.4rem] whitespace-pre sm:text-xs md:text-sm font-bold">
+      <h1 className="font-mono text-[0.3rem] whitespace-pre sm:text-xs md:text-sm font-bold">
         {ASCII_ART.join("\n")}
       </h1>
 
-      <div className="flex flex-col font-mono mt-3 md:mt-0 items-end gap-1">
+      <div className="flex flex-col font-mono items-end gap-1">
         <ThemeSelector />
         <VimToggle />
         <div className="flex gap-1">

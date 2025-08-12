@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import { geistMono, geistSans } from "@/lib/fonts";
 import ThemeProvider from "@/components/theme-provider";
@@ -7,6 +7,11 @@ export const metadata: Metadata = {
   title: "Store.nvim - Neovim Plugin Directory",
   description:
     "Discover, explore, and install Neovim plugins effortlessly with Store.nvim — a clean, fast, and community-driven directory of plugins built for the modern Neovim ecosystem.",
+};
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
 };
 
 export default function RootLayout({

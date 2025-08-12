@@ -1,14 +1,51 @@
 import { useQuery } from "@tanstack/react-query";
 import { Repository } from "./definitions";
 
-const REPOS_URL =
-  "https://gist.githubusercontent.com/alex-popov-tech/93dcd3ce38cbc7a0b3245b9b59b56c9b/raw/store.nvim-repos.json";
+const DATA_SOURCE_URL =
+  "https://gist.githubusercontent.com/alex-popov-tech/dfb6adf1ee0506461d7dc029a28f851d/raw/store.nvim_db_1.1.0.json";
+
+const parseCount = (input: string): number => {
+  const match = input.match(/^(?<num>[\d.]+)(?<suffix>[kM]?)$/);
+  if (!match || !match.groups) {
+    return parseInt(input.replace(/,/g, ""), 10) || 0;
+  }
+  const value = parseFloat(match.groups.num);
+  const suffix = match.groups.suffix;
+  const multiplier = suffix === "k" ? 1_000 : suffix === "M" ? 1_000_000 : 1;
+  return Math.round(value * multiplier);
+};
 
 export const retrievePlugins = async () => {
-  const res = await fetch(REPOS_URL);
-  return (await res.json()) as {
-    repositories: Repository[];
-    total_repositories: number;
+  const res = await fetch(DATA_SOURCE_URL);
+  const data = (await res.json()) as {
+    meta: { total_count: number };
+    items: Array<{
+      full_name: string;
+      description: string;
+      homepage: string;
+      html_url: string;
+      tags: string[];
+      stargazers_count: number;
+      pretty_forks_count: string;
+      pushed_at: number;
+    }>;
+  };
+
+  const repositories: Repository[] = data.items.map((item) => ({
+    full_name: item.full_name,
+    description: item.description,
+    homepage: item.homepage,
+    html_url: item.html_url,
+    stargazers_count: item.stargazers_count,
+    watchers_count: item.stargazers_count,
+    fork_count: parseCount(item.pretty_forks_count),
+    updated_at: new Date(item.pushed_at * 1000).toISOString(),
+    topics: item.tags,
+  }));
+
+  return {
+    repositories,
+    total_repositories: data.meta.total_count,
   };
 };
 

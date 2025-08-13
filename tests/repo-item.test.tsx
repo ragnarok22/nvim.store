@@ -20,7 +20,7 @@ const repo: Repository = {
 describe("RepoItem", () => {
   it("renders repository data", () => {
     const html = renderToStaticMarkup(
-      <RepoItem item={repo} isSelected={false} />
+      <RepoItem item={repo} isSelected={false} />,
     );
     expect(html).toContain("owner/name");
     expect(html).toContain("⭐ 1.5k");
@@ -31,7 +31,7 @@ describe("RepoItem", () => {
 
   it("shows selected style", () => {
     const html = renderToStaticMarkup(
-      <RepoItem item={repo} isSelected={true} />
+      <RepoItem item={repo} isSelected={true} />,
     );
     expect(html).toContain("bg-foreground text-black");
   });

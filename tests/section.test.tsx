@@ -9,19 +9,21 @@ describe("Section", () => {
     const html = renderToStaticMarkup(
       <Section>
         <span>Content</span>
-      </Section>
+      </Section>,
     );
-    expect(html).toBe("<section class=\"border rounded-sm p-3\"><span>Content</span></section>");
+    expect(html).toBe(
+      '<section class="border rounded-sm p-3"><span>Content</span></section>',
+    );
   });
 
   it("applies custom class", () => {
     const html = renderToStaticMarkup(
       <Section className="extra">
         <span>Child</span>
-      </Section>
+      </Section>,
     );
     expect(html).toBe(
-      "<section class=\"border rounded-sm p-3 extra\"><span>Child</span></section>"
+      '<section class="border rounded-sm p-3 extra"><span>Child</span></section>',
     );
   });
 });

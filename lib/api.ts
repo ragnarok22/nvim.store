@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { Repository } from "./definitions";
 
 const DATA_SOURCE_URL =
-  "https://gist.githubusercontent.com/alex-popov-tech/dfb6adf1ee0506461d7dc029a28f851d/raw/store.nvim_db_1.1.0.json";
+  "https://gist.githubusercontent.com/alex-popov-tech/dfb6adf1ee0506461d7dc029a28f851d/raw/db.json";
 
 const parseCount = (input: string): number => {
   const match = input.match(/^(?<num>[\d.]+)(?<suffix>[kM]?)$/);

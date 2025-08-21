@@ -3,6 +3,7 @@
 ![nvim.store](https://img.shields.io/badge/nvim-store-green)
 [![Tests](https://github.com/ragnarok22/nvim.store/actions/workflows/tests.yml/badge.svg)](https://github.com/ragnarok22/nvim.store/actions/workflows/tests.yml)
 ![Codecov](https://img.shields.io/codecov/c/github/ragnarok22/nvim.store)
+[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/ragnarok22/nvim.store)
 
 Store.nvim is a clean and community-driven directory of plugins for the modern Neovim ecosystem. The site is built with Next.js and provides a fast interface for discovering new tools, viewing plugin details, and navigating directly to their repositories.
 

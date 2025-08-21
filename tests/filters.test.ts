@@ -1,5 +1,10 @@
 import { describe, it, expect } from "vitest";
-import { parseFilter, filterRepositories, registerFilter, availableFilters } from "../lib/filters";
+import {
+  parseFilter,
+  filterRepositories,
+  registerFilter,
+  availableFilters,
+} from "../lib/filters";
 import type { Repository } from "../lib/definitions";
 
 const repos: Repository[] = [

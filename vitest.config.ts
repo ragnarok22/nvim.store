@@ -8,6 +8,8 @@ export default defineConfig({
       provider: "v8",
       reporter: ["text", "json", "html"],
       reportsDirectory: "coverage",
+      include: ["lib/**/*.{ts,tsx}"],
+      exclude: ["lib/definitions.ts"],
     },
   },
   resolve: {

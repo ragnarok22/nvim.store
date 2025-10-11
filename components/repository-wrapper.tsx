@@ -22,11 +22,11 @@ export default function RepositoryWrapper({
 
   const changeSelected = (selected: Repository) => {
     setSelected(selected);
-    descriptionRef.current?.classList.toggle("translate-x-full");
+    descriptionRef.current?.classList.add("sidebar-open");
   };
 
   const handleCloseDescription = () => {
-    descriptionRef.current?.classList.add("translate-x-full");
+    descriptionRef.current?.classList.remove("sidebar-open");
   };
 
   const isMobile =
@@ -72,7 +72,7 @@ export default function RepositoryWrapper({
         </div>
 
         <div
-          className="absolute top-0 right-0 bg-background md:block w-full md:w-2/3 h-full overflow-hidden translate-x-full"
+          className="absolute top-0 right-0 bg-background md:block w-full md:w-2/3 h-full overflow-hidden sidebar"
           ref={descriptionRef}
         >
           <RepoDescription repo={selected} onClose={handleCloseDescription} />

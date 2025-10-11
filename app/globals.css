@@ -94,3 +94,11 @@ body {
   border-radius: 0.25rem;
   overflow: auto;
 }
+
+.sidebar {
+  @apply translate-x-full transition-all duration-[250ms] ease-in-out;
+
+  &.sidebar-open {
+    @apply translate-x-0;
+  }
+}

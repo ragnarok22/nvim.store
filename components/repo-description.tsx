@@ -46,7 +46,7 @@ export default function RepoDescription({
         </a>
 
         <button
-          className="ml-auto bg-foreground text-background p-1 rounded-sm cursor-pointer"
+          className="ml-auto bg-foreground text-background p-1 rounded-sm cursor-pointer md:hidden"
           onClick={onClose}
         >
           <svg

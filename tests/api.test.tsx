@@ -43,6 +43,49 @@ describe("api", () => {
     expect(repo.updated_at).toBe(new Date(123 * 1000).toISOString());
   });
 
+  it("parses fork counts with suffixes and formatted numbers", async () => {
+    vi.stubGlobal(
+      "fetch",
+      vi.fn(async () => ({
+        json: async () => ({
+          meta: { total_count: 2 },
+          items: [
+            {
+              full_name: "owner/large",
+              description: "",
+              homepage: "",
+              html_url: "",
+              tags: [],
+              stargazers_count: 42,
+              pretty_forks_count: "2M",
+              pushed_at: 1,
+            },
+            {
+              full_name: "owner/comma",
+              description: "",
+              homepage: "",
+              html_url: "",
+              tags: [],
+              stargazers_count: 7,
+              pretty_forks_count: "1,234",
+              pushed_at: 2,
+            },
+          ],
+        }),
+      })) as any,
+    );
+
+    const result = await retrievePlugins();
+    expect(result.total_repositories).toBe(2);
+
+    const [large, comma] = result.repositories;
+    expect(large.fork_count).toBe(2_000_000);
+    expect(large.watchers_count).toBe(42);
+    expect(comma.fork_count).toBe(1234);
+    expect(comma.watchers_count).toBe(7);
+    expect(comma.updated_at).toBe(new Date(2 * 1000).toISOString());
+  });
+
   it("decodes base64 readme content", async () => {
     const base64 = Buffer.from("hello world").toString("base64");
     vi.stubGlobal(

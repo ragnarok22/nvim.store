@@ -3,7 +3,7 @@
 import { Repository } from "@/lib/definitions";
 import RepoDescription from "./repo-description";
 import RepoList from "./repo-list";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { useStore } from "@/lib/store";
 
@@ -17,21 +17,42 @@ export default function RepositoryWrapper({
   repositories,
 }: RepositoryWrapperProps) {
   const [selected, setSelected] = useState(repositories[0]);
-  const descriptionRef = useRef<HTMLDivElement>(null);
   const { vimMode } = useStore();
+  const [isMobile, setIsMobile] = useState(false);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
+  useEffect(() => {
+    const updateViewportFlags = () => {
+      if (typeof window === "undefined") return;
+      const mobile = window.matchMedia("(max-width: 767px)").matches;
+      setIsMobile(mobile);
+      setIsSidebarOpen((prev) => (mobile ? prev : true));
+    };
+
+    updateViewportFlags();
+    window.addEventListener("resize", updateViewportFlags);
+    return () => window.removeEventListener("resize", updateViewportFlags);
+  }, []);
 
   const changeSelected = (selected: Repository) => {
     setSelected(selected);
-    descriptionRef.current?.classList.add("sidebar-open");
+    if (isMobile) {
+      setIsSidebarOpen(true);
+    }
   };
 
   const handleCloseDescription = () => {
-    descriptionRef.current?.classList.remove("sidebar-open");
+    if (isMobile) {
+      setIsSidebarOpen(false);
+    }
   };
-
-  const isMobile =
-    typeof navigator !== "undefined" &&
-    /Mobi|Android|iPhone|iPad/i.test(navigator.userAgent);
+  const baseDescriptionClasses =
+    "absolute inset-0 bg-background md:static md:flex-1 md:w-auto h-full md:h-full overflow-hidden md:overflow-auto";
+  const descriptionClasses = isMobile
+    ? ["sidebar", isSidebarOpen && "sidebar-open", baseDescriptionClasses]
+        .filter(Boolean)
+        .join(" ")
+    : baseDescriptionClasses;
 
   useEffect(() => {
     if (!vimMode || isMobile) return;
@@ -71,10 +92,7 @@ export default function RepositoryWrapper({
           </div>
         </div>
 
-        <div
-          className="absolute top-0 right-0 bg-background md:block w-full md:w-2/3 h-full overflow-hidden sidebar"
-          ref={descriptionRef}
-        >
+        <div className={descriptionClasses}>
           <RepoDescription repo={selected} onClose={handleCloseDescription} />
         </div>
       </div>

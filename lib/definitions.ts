@@ -4,8 +4,8 @@ export type Repository = {
   homepage: string;
   html_url: string;
   stargazers_count: number;
-  watchers_count: number;
-  fork_count: number;
+  issues_count: number;
+  created_at: string;
   updated_at: string;
   topics: string[];
 };

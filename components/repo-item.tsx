@@ -23,12 +23,7 @@ export default function RepoItem({ item, isSelected, onClick }: RepoItemProps) {
 
       <div className="flex gap-2">
         <span>⭐ {formatNumber(item.stargazers_count)}</span>
-        <span className="md:hidden xl:inline">
-          🍴 {formatNumber(item.fork_count)}
-        </span>
-        <span className="hidden md:inline">
-          👀 {formatNumber(item.watchers_count)}
-        </span>
+        <span>🐛 {formatNumber(item.issues_count)}</span>
       </div>
     </div>
   );

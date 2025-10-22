@@ -17,17 +17,17 @@ describe("api", () => {
       "fetch",
       vi.fn(async () => ({
         json: async () => ({
-          meta: { total_count: 1 },
+          meta: { created_at: 1_690_000_000_000 },
           items: [
             {
               full_name: "user/repo",
               description: "desc",
-              homepage: "",
-              html_url: "",
+              url: "https://example.com/repo",
               tags: ["tag"],
-              stargazers_count: 3,
-              pretty_forks_count: "1.5k",
-              pushed_at: 123,
+              stars: 3,
+              issues: 2,
+              created_at: "2025-01-01T00:00:00Z",
+              updated_at: 123,
             },
           ],
         }),
@@ -39,36 +39,41 @@ describe("api", () => {
     expect(result.total_repositories).toBe(1);
     const repo = result.repositories[0];
     expect(repo.full_name).toBe("user/repo");
-    expect(repo.fork_count).toBe(1500);
+    expect(repo.stargazers_count).toBe(3);
+    expect(repo.issues_count).toBe(2);
     expect(repo.updated_at).toBe(new Date(123 * 1000).toISOString());
+    expect(repo.created_at).toBe("2025-01-01T00:00:00.000Z");
   });
 
-  it("parses fork counts with suffixes and formatted numbers", async () => {
+  it("normalizes counts from pretty formatted values", async () => {
     vi.stubGlobal(
       "fetch",
       vi.fn(async () => ({
         json: async () => ({
-          meta: { total_count: 2 },
+          meta: { created_at: 1_690_000_000_000 },
           items: [
             {
               full_name: "owner/large",
               description: "",
-              homepage: "",
-              html_url: "",
+              url: "",
               tags: [],
-              stargazers_count: 42,
-              pretty_forks_count: "2M",
-              pushed_at: 1,
+              stars: "2M",
+              issues: null,
+              created_at: "2025-01-01T00:00:00Z",
+              updated_at: "2025-01-02T00:00:00Z",
+              pretty: {
+                issues: "2.4k",
+              },
             },
             {
               full_name: "owner/comma",
               description: "",
-              homepage: "",
-              html_url: "",
+              url: "",
               tags: [],
-              stargazers_count: 7,
-              pretty_forks_count: "1,234",
-              pushed_at: 2,
+              stars: 7,
+              issues: "1,234",
+              created_at: null,
+              updated_at: "2025-01-03T00:00:00Z",
             },
           ],
         }),
@@ -79,11 +84,12 @@ describe("api", () => {
     expect(result.total_repositories).toBe(2);
 
     const [large, comma] = result.repositories;
-    expect(large.fork_count).toBe(2_000_000);
-    expect(large.watchers_count).toBe(42);
-    expect(comma.fork_count).toBe(1234);
-    expect(comma.watchers_count).toBe(7);
-    expect(comma.updated_at).toBe(new Date(2 * 1000).toISOString());
+    expect(large.stargazers_count).toBe(2_000_000);
+    expect(large.issues_count).toBe(2400);
+    expect(comma.issues_count).toBe(1234);
+    expect(comma.stargazers_count).toBe(7);
+    expect(comma.created_at).toBe(new Date(0).toISOString());
+    expect(comma.updated_at).toBe("2025-01-03T00:00:00.000Z");
   });
 
   it("decodes base64 readme content", async () => {
@@ -103,8 +109,8 @@ describe("api", () => {
       homepage: "",
       html_url: "",
       stargazers_count: 0,
-      watchers_count: 0,
-      fork_count: 0,
+      issues_count: 0,
+      created_at: "",
       updated_at: "",
       topics: [],
     };

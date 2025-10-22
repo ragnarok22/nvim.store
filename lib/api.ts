@@ -2,50 +2,115 @@ import { useQuery } from "@tanstack/react-query";
 import { Repository } from "./definitions";
 
 const DATA_SOURCE_URL =
-  "https://gist.githubusercontent.com/alex-popov-tech/dfb6adf1ee0506461d7dc029a28f851d/raw/db.json";
+  "https://gist.githubusercontent.com/alex-popov-tech/92d1366bfeb168d767153a24be1475b5/raw/db.json";
 
-const parseCount = (input: string): number => {
-  const match = input.match(/^(?<num>[\d.]+)(?<suffix>[kM]?)$/);
-  if (!match || !match.groups) {
-    return parseInt(input.replace(/,/g, ""), 10) || 0;
+const parseCount = (input: unknown): number => {
+  if (typeof input === "number" && Number.isFinite(input)) {
+    return Math.round(input);
   }
-  const value = parseFloat(match.groups.num);
+
+  if (typeof input !== "string") {
+    return Number.NaN;
+  }
+
+  const normalized = input.trim();
+  if (!normalized) {
+    return Number.NaN;
+  }
+
+  const match = normalized.match(/^(?<num>[\d.]+)(?<suffix>[kM]?)$/);
+  if (!match || !match.groups) {
+    const numeric = Number.parseInt(normalized.replace(/,/g, ""), 10);
+    return Number.isNaN(numeric) ? Number.NaN : numeric;
+  }
+
+  const value = Number.parseFloat(match.groups.num);
+  if (Number.isNaN(value)) {
+    return Number.NaN;
+  }
+
   const suffix = match.groups.suffix;
   const multiplier = suffix === "k" ? 1_000 : suffix === "M" ? 1_000_000 : 1;
   return Math.round(value * multiplier);
 };
 
+const normalizeCount = (...values: unknown[]): number => {
+  for (const value of values) {
+    const parsed = parseCount(value);
+    if (!Number.isNaN(parsed)) {
+      return parsed;
+    }
+  }
+  return 0;
+};
+
+const normalizeTimestamp = (input: unknown): string => {
+  if (typeof input === "number" && Number.isFinite(input)) {
+    const millis = input > 1_000_000_000_000 ? input : input * 1000;
+    return new Date(millis).toISOString();
+  }
+
+  if (typeof input === "string") {
+    const trimmed = input.trim();
+    if (!trimmed) {
+      return new Date(0).toISOString();
+    }
+
+    const asNumber = Number(trimmed);
+    if (!Number.isNaN(asNumber) && Number.isFinite(asNumber)) {
+      return normalizeTimestamp(asNumber);
+    }
+
+    const parsed = new Date(trimmed);
+    if (!Number.isNaN(parsed.getTime())) {
+      return parsed.toISOString();
+    }
+  }
+
+  return new Date(0).toISOString();
+};
+
 export const retrievePlugins = async () => {
   const res = await fetch(DATA_SOURCE_URL);
   const data = (await res.json()) as {
-    meta: { total_count: number };
+    meta: { created_at?: number };
     items: Array<{
+      source: string;
       full_name: string;
-      description: string;
-      homepage: string;
-      html_url: string;
-      tags: string[];
-      stargazers_count: number;
-      pretty_forks_count: string;
-      pushed_at: number;
+      author: string;
+      name: string;
+      url?: string;
+      description?: string;
+      tags?: string[];
+      stars?: number | string | null;
+      issues?: number | string | null;
+      created_at?: string | number | null;
+      updated_at?: string | number | null;
+      pretty?: {
+        stars?: string | number | null;
+        issues?: string | number | null;
+        created_at?: string | null;
+        updated_at?: string | null;
+      };
+      readme?: string | null;
     }>;
   };
 
   const repositories: Repository[] = data.items.map((item) => ({
     full_name: item.full_name,
-    description: item.description,
-    homepage: item.homepage,
-    html_url: item.html_url,
-    stargazers_count: item.stargazers_count,
-    watchers_count: item.stargazers_count,
-    fork_count: parseCount(item.pretty_forks_count),
-    updated_at: new Date(item.pushed_at * 1000).toISOString(),
-    topics: item.tags,
+    description: item.description ?? "",
+    homepage: item.url ?? "",
+    html_url: item.url ?? "",
+    stargazers_count: normalizeCount(item.stars, item.pretty?.stars),
+    issues_count: normalizeCount(item.issues, item.pretty?.issues),
+    created_at: normalizeTimestamp(item.created_at),
+    updated_at: normalizeTimestamp(item.updated_at),
+    topics: Array.isArray(item.tags) ? item.tags : [],
   }));
 
   return {
     repositories,
-    total_repositories: data.meta.total_count,
+    total_repositories: repositories.length,
   };
 };
 

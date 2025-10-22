@@ -11,8 +11,8 @@ const repo: Repository = {
   homepage: "",
   html_url: "",
   stargazers_count: 1500,
-  watchers_count: 20,
-  fork_count: 30,
+  issues_count: 30,
+  created_at: "2025-01-01T00:00:00Z",
   updated_at: "2025-01-01T00:00:00Z",
   topics: [],
 };
@@ -24,8 +24,7 @@ describe("RepoItem", () => {
     );
     expect(html).toContain("owner/name");
     expect(html).toContain("⭐ 1.5k");
-    expect(html).toContain("🍴 30");
-    expect(html).toContain("👀 20");
+    expect(html).toContain("🐛 30");
     expect(html).not.toContain("bg-foreground text-black");
   });
 

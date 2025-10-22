@@ -3,11 +3,13 @@
 import { Repository } from "@/lib/definitions";
 import RepoDescription from "./repo-description";
 import RepoList from "./repo-list";
-import { useEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { useStore } from "@/lib/store";
 
 const queryClient = new QueryClient();
+const useIsomorphicLayoutEffect =
+  typeof window !== "undefined" ? useLayoutEffect : useEffect;
 
 type RepositoryWrapperProps = {
   repositories: Repository[];
@@ -21,7 +23,7 @@ export default function RepositoryWrapper({
   const [isMobile, setIsMobile] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
-  useEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     const updateViewportFlags = () => {
       if (typeof window === "undefined") return;
       const mobile = window.matchMedia("(max-width: 767px)").matches;

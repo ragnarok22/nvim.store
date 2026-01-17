@@ -1,6 +1,7 @@
 import Header from "@/components/header";
 import Help from "@/components/help";
 import InstallModal from "@/components/install-modal";
+import MobileMenu from "@/components/mobile-menu";
 import RepositoryWrapper from "@/components/repository-wrapper";
 import { retrievePlugins } from "@/lib/api";
 
@@ -14,6 +15,7 @@ export default async function Home() {
 
       <Help />
       <InstallModal />
+      <MobileMenu />
     </div>
   );
 }

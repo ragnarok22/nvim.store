@@ -13,6 +13,7 @@ interface State {
   vimMode: boolean;
   showHelp: boolean;
   showInstall: boolean;
+  showMobileMenu: boolean;
 }
 
 interface Actions {
@@ -23,6 +24,7 @@ interface Actions {
   setVimMode: (enabled: boolean) => void;
   setShowHelp: (show: boolean) => void;
   setShowInstall: (show: boolean) => void;
+  setShowMobileMenu: (show: boolean) => void;
 }
 
 const initialState: State = {
@@ -33,6 +35,7 @@ const initialState: State = {
   vimMode: true,
   showHelp: false,
   showInstall: false,
+  showMobileMenu: false,
 };
 
 export const useStore = create<State & Actions>()(
@@ -53,6 +56,7 @@ export const useStore = create<State & Actions>()(
       setVimMode: (enabled: boolean) => set({ vimMode: enabled }),
       setShowHelp: (show: boolean) => set({ showHelp: show }),
       setShowInstall: (show: boolean) => set({ showInstall: show }),
+      setShowMobileMenu: (show: boolean) => set({ showMobileMenu: show }),
     }),
     {
       name: "store-theme",

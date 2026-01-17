@@ -71,7 +71,9 @@ const normalizeTimestamp = (input: unknown): string => {
 };
 
 export const retrievePlugins = async () => {
-  const res = await fetch(DATA_SOURCE_URL);
+  const res = await fetch(DATA_SOURCE_URL, {
+    next: { revalidate: 7200 }, // Revalidate every 2 hours
+  });
   const data = (await res.json()) as {
     meta: { created_at?: number };
     items: Array<{

@@ -116,10 +116,14 @@ describe("api", () => {
     };
 
     const client = new QueryClient();
-    let query: ReturnType<typeof useRetrieveReadme>;
+    const queryRef = {
+      current: null as ReturnType<typeof useRetrieveReadme> | null,
+    };
 
     const Test = () => {
-      query = useRetrieveReadme(repo);
+      const query = useRetrieveReadme(repo);
+      // eslint-disable-next-line react-hooks/immutability -- capturing hook result for testing
+      queryRef.current = query;
       return null;
     };
 
@@ -129,7 +133,7 @@ describe("api", () => {
       </QueryClientProvider>,
     );
 
-    const result = await query!.refetch();
+    const result = await queryRef.current!.refetch();
     expect(result.data).toBe("hello world");
   });
 });

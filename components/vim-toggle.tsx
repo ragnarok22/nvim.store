@@ -2,22 +2,17 @@
 import { useEffect, useState } from "react";
 import { useStore } from "@/lib/store";
 
-function getIsMobile() {
-  return (
-    typeof window !== "undefined" &&
-    window.matchMedia("(pointer:coarse)").matches
-  );
-}
-
 export default function VimToggle() {
   const { vimMode, setVimMode } = useStore();
-  const [isMobile] = useState(getIsMobile);
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
-    if (isMobile) {
+    const mobile = window.matchMedia("(pointer:coarse)").matches;
+    setIsMobile(mobile);
+    if (mobile) {
       setVimMode(false);
     }
-  }, [isMobile, setVimMode]);
+  }, [setVimMode]);
 
   if (isMobile) return null;
 

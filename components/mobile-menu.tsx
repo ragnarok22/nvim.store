@@ -11,6 +11,7 @@ export default function MobileMenu() {
     setShowMobileMenu,
     setShowHelp,
     setShowInstall,
+    toggleFilter,
     theme,
     setTheme,
   } = useStore();
@@ -34,6 +35,12 @@ export default function MobileMenu() {
           Close
         </button>
         <nav className="font-mono flex flex-col gap-4 pt-4">
+          <button
+            onClick={() => handleOption(() => toggleFilter())}
+            className="text-left underline"
+          >
+            Filter
+          </button>
           <button
             onClick={() => handleOption(() => setShowHelp(true))}
             className="text-left underline"

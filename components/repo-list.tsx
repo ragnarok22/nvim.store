@@ -9,7 +9,7 @@ import { filterRepositories } from "@/lib/filters";
 
 type RepoListProps = {
   repositories: Repository[];
-  selected: Repository;
+  selected: Repository | null;
   setSelected: (repo: Repository) => void;
 };
 

@@ -18,10 +18,20 @@ type RepositoryWrapperProps = {
 export default function RepositoryWrapper({
   repositories,
 }: RepositoryWrapperProps) {
-  const [selected, setSelected] = useState(repositories[0]);
+  const [selected, setSelected] = useState<Repository | null>(
+    repositories[0] ?? null,
+  );
   const { vimMode } = useStore();
   const [isMobile, setIsMobile] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
+  useEffect(() => {
+    if (repositories.length === 0) {
+      setSelected(null);
+      return;
+    }
+    setSelected((current) => current ?? repositories[0]);
+  }, [repositories]);
 
   useIsomorphicLayoutEffect(() => {
     const updateViewportFlags = () => {
@@ -36,8 +46,8 @@ export default function RepositoryWrapper({
     return () => window.removeEventListener("resize", updateViewportFlags);
   }, []);
 
-  const changeSelected = (selected: Repository) => {
-    setSelected(selected);
+  const changeSelected = (nextSelected: Repository) => {
+    setSelected(nextSelected);
     if (isMobile) {
       setIsSidebarOpen(true);
     }
@@ -57,12 +67,13 @@ export default function RepositoryWrapper({
     : baseDescriptionClasses;
 
   useEffect(() => {
-    if (!vimMode || isMobile) return;
+    if (!vimMode || isMobile || repositories.length === 0) return;
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.target instanceof HTMLInputElement) return;
       if (event.key === "j" || event.key === "ArrowDown") {
         event.preventDefault();
         setSelected((current) => {
+          if (!current) return repositories[0];
           const idx = repositories.indexOf(current);
           return idx < repositories.length - 1
             ? repositories[idx + 1]
@@ -71,6 +82,7 @@ export default function RepositoryWrapper({
       } else if (event.key === "k" || event.key === "ArrowUp") {
         event.preventDefault();
         setSelected((current) => {
+          if (!current) return repositories[0];
           const idx = repositories.indexOf(current);
           return idx > 0 ? repositories[idx - 1] : current;
         });
@@ -95,7 +107,13 @@ export default function RepositoryWrapper({
         </div>
 
         <div className={descriptionClasses}>
-          <RepoDescription repo={selected} onClose={handleCloseDescription} />
+          {selected ? (
+            <RepoDescription repo={selected} onClose={handleCloseDescription} />
+          ) : (
+            <div className="p-3 text-sm text-muted-foreground">
+              No plugins found.
+            </div>
+          )}
         </div>
       </div>
     </QueryClientProvider>

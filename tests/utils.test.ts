@@ -17,4 +17,8 @@ describe("formatNumber", () => {
   it("formats numbers in billions", () => {
     expect(formatNumber(3000000000)).toBe("3.0b");
   });
+
+  it("formats numbers in trillions", () => {
+    expect(formatNumber(2500000000000)).toBe("2.5t");
+  });
 });

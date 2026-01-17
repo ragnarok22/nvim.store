@@ -1,5 +1,5 @@
 /**
- * Converts a number info format k, m, b, t
+ * Converts a number into format k, m, b, t
  * @param {number} count
  * @returns {string}
  **/
@@ -13,5 +13,8 @@ export const formatNumber = (count: number): string => {
   if (count < 1000000000) {
     return `${(count / 1000000).toFixed(1)}m`;
   }
-  return `${(count / 1000000000).toFixed(1)}b`;
+  if (count < 1000000000000) {
+    return `${(count / 1000000000).toFixed(1)}b`;
+  }
+  return `${(count / 1000000000000).toFixed(1)}t`;
 };

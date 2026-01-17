@@ -58,6 +58,11 @@ describe("filterRepositories", () => {
     expect(filterRepositories(repos, "")).toEqual(repos);
   });
 
+  it("ignores unknown filter keys", () => {
+    const result = filterRepositories(repos, "unknown:foo");
+    expect(result).toEqual(repos);
+  });
+
   it("uses registered custom filters", () => {
     registerFilter("desc", (repo, value) =>
       repo.description.toLowerCase().includes(value.toLowerCase()),

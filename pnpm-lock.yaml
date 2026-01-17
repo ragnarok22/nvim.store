@@ -14,6 +14,9 @@ importers:
       "@tanstack/react-query":
         specifier: ^5.90.18
         version: 5.90.18(react@19.2.3)
+      "@tanstack/react-virtual":
+        specifier: ^3.13.18
+        version: 3.13.18(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
       clsx:
         specifier: ^2.1.1
         version: 2.1.1
@@ -1284,6 +1287,21 @@ packages:
       }
     peerDependencies:
       react: ^18 || ^19
+
+  "@tanstack/react-virtual@3.13.18":
+    resolution:
+      {
+        integrity: sha512-dZkhyfahpvlaV0rIKnvQiVoWPyURppl6w4m9IwMDpuIjcJ1sD9YGWrt0wISvgU7ewACXx2Ct46WPgI6qAD4v6A==,
+      }
+    peerDependencies:
+      react: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
+      react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
+
+  "@tanstack/virtual-core@3.13.18":
+    resolution:
+      {
+        integrity: sha512-Mx86Hqu1k39icq2Zusq+Ey2J6dDWTjDvEv43PJtRCoEYTLyfaPnxIQ6iy7YAOK0NV/qOEmZQ/uCufrppZxTgcg==,
+      }
 
   "@tybys/wasm-util@0.10.1":
     resolution:
@@ -4636,6 +4654,14 @@ snapshots:
     dependencies:
       "@tanstack/query-core": 5.90.18
       react: 19.2.3
+
+  "@tanstack/react-virtual@3.13.18(react-dom@19.2.3(react@19.2.3))(react@19.2.3)":
+    dependencies:
+      "@tanstack/virtual-core": 3.13.18
+      react: 19.2.3
+      react-dom: 19.2.3(react@19.2.3)
+
+  "@tanstack/virtual-core@3.13.18": {}
 
   "@tybys/wasm-util@0.10.1":
     dependencies:

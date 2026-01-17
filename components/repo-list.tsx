@@ -1,11 +1,14 @@
+import { forwardRef, useImperativeHandle, useRef } from "react";
+import { useVirtualizer } from "@tanstack/react-virtual";
 import { Repository } from "@/lib/definitions";
 import Section from "./section";
 import RepoItem from "./repo-item";
 import RepoFilter from "./repo-filter";
 import RepoSort from "./repo-sort";
-import { useStore } from "@/lib/store";
-import { sortRepositories } from "@/lib/sort";
-import { filterRepositories } from "@/lib/filters";
+
+export type RepoListHandle = {
+  scrollToIndex: (index: number) => void;
+};
 
 type RepoListProps = {
   repositories: Repository[];
@@ -13,31 +16,64 @@ type RepoListProps = {
   setSelected: (repo: Repository) => void;
 };
 
-export default function RepoList({
-  repositories,
-  selected,
-  setSelected,
-}: RepoListProps) {
-  const { filter, sort } = useStore();
+const ITEM_HEIGHT = 60;
 
-  const filtered = filterRepositories(repositories, filter);
-  const sorted = sortRepositories(filtered, sort);
+const RepoList = forwardRef<RepoListHandle, RepoListProps>(function RepoList(
+  { repositories, selected, setSelected },
+  ref,
+) {
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+
+  const virtualizer = useVirtualizer({
+    count: repositories.length,
+    getScrollElement: () => scrollContainerRef.current,
+    estimateSize: () => ITEM_HEIGHT,
+    overscan: 5,
+  });
+
+  useImperativeHandle(ref, () => ({
+    scrollToIndex: (index: number) => {
+      virtualizer.scrollToIndex(index, { align: "auto" });
+    },
+  }));
 
   return (
-    <Section className="h-full overflow-y-auto">
+    <Section className="h-full flex flex-col">
       <RepoFilter />
       <RepoSort />
-      <ul>
-        {sorted.slice(0, 100).map((repository, index) => (
-          <li key={index}>
-            <RepoItem
-              item={repository}
-              onClick={() => setSelected(repository)}
-              isSelected={repository === selected}
-            />
-          </li>
-        ))}
-      </ul>
+      <div ref={scrollContainerRef} className="flex-1 overflow-y-auto">
+        <div
+          style={{
+            height: `${virtualizer.getTotalSize()}px`,
+            width: "100%",
+            position: "relative",
+          }}
+        >
+          {virtualizer.getVirtualItems().map((virtualItem) => {
+            const repository = repositories[virtualItem.index];
+            return (
+              <div
+                key={virtualItem.key}
+                style={{
+                  position: "absolute",
+                  top: 0,
+                  left: 0,
+                  width: "100%",
+                  transform: `translateY(${virtualItem.start}px)`,
+                }}
+              >
+                <RepoItem
+                  item={repository}
+                  onClick={() => setSelected(repository)}
+                  isSelected={repository === selected}
+                />
+              </div>
+            );
+          })}
+        </div>
+      </div>
     </Section>
   );
-}
+});
+
+export default RepoList;

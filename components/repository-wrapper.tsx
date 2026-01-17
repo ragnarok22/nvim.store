@@ -1,11 +1,13 @@
 "use client";
 
+import { useMemo, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { Repository } from "@/lib/definitions";
 import RepoDescription from "./repo-description";
-import RepoList from "./repo-list";
-import { useEffect, useLayoutEffect, useState } from "react";
+import RepoList, { RepoListHandle } from "./repo-list";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { useStore } from "@/lib/store";
+import { sortRepositories } from "@/lib/sort";
+import { filterRepositories } from "@/lib/filters";
 
 const queryClient = new QueryClient();
 const useIsomorphicLayoutEffect =
@@ -21,17 +23,28 @@ export default function RepositoryWrapper({
   const [selected, setSelected] = useState<Repository | null>(
     repositories[0] ?? null,
   );
-  const { vimMode } = useStore();
+  const { vimMode, filter, sort } = useStore();
   const [isMobile, setIsMobile] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const repoListRef = useRef<RepoListHandle>(null);
+
+  const processedRepositories = useMemo(() => {
+    const filtered = filterRepositories(repositories, filter);
+    return sortRepositories(filtered, sort);
+  }, [repositories, filter, sort]);
 
   useEffect(() => {
-    if (repositories.length === 0) {
+    if (processedRepositories.length === 0) {
       setSelected(null);
       return;
     }
-    setSelected((current) => current ?? repositories[0]);
-  }, [repositories]);
+    setSelected((current) => {
+      if (current && processedRepositories.includes(current)) {
+        return current;
+      }
+      return processedRepositories[0];
+    });
+  }, [processedRepositories]);
 
   useIsomorphicLayoutEffect(() => {
     const updateViewportFlags = () => {
@@ -67,31 +80,45 @@ export default function RepositoryWrapper({
     : baseDescriptionClasses;
 
   useEffect(() => {
-    if (!vimMode || isMobile || repositories.length === 0) return;
+    if (!vimMode || isMobile || processedRepositories.length === 0) return;
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.target instanceof HTMLInputElement) return;
       if (event.key === "j" || event.key === "ArrowDown") {
         event.preventDefault();
         setSelected((current) => {
-          if (!current) return repositories[0];
-          const idx = repositories.indexOf(current);
-          return idx < repositories.length - 1
-            ? repositories[idx + 1]
-            : current;
+          if (!current) {
+            repoListRef.current?.scrollToIndex(0);
+            return processedRepositories[0];
+          }
+          const idx = processedRepositories.indexOf(current);
+          if (idx < processedRepositories.length - 1) {
+            const newIndex = idx + 1;
+            repoListRef.current?.scrollToIndex(newIndex);
+            return processedRepositories[newIndex];
+          }
+          return current;
         });
       } else if (event.key === "k" || event.key === "ArrowUp") {
         event.preventDefault();
         setSelected((current) => {
-          if (!current) return repositories[0];
-          const idx = repositories.indexOf(current);
-          return idx > 0 ? repositories[idx - 1] : current;
+          if (!current) {
+            repoListRef.current?.scrollToIndex(0);
+            return processedRepositories[0];
+          }
+          const idx = processedRepositories.indexOf(current);
+          if (idx > 0) {
+            const newIndex = idx - 1;
+            repoListRef.current?.scrollToIndex(newIndex);
+            return processedRepositories[newIndex];
+          }
+          return current;
         });
       }
     };
 
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [vimMode, isMobile, repositories]);
+  }, [vimMode, isMobile, processedRepositories]);
 
   return (
     <QueryClientProvider client={queryClient}>
@@ -99,7 +126,8 @@ export default function RepositoryWrapper({
         <div className="w-full md:w-1/3 h-full md:h-full relative">
           <div className="overflow-hidden h-full">
             <RepoList
-              repositories={repositories}
+              ref={repoListRef}
+              repositories={processedRepositories}
               selected={selected}
               setSelected={changeSelected}
             />

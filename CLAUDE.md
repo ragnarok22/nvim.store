@@ -1,8 +1,4 @@
-# CLAUDE.md
-
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
-
-## Project Overview
+# Project Overview
 
 Store.nvim is a Next.js web application that serves as a community-driven directory of Neovim plugins. It fetches plugin data from an external JSON source and provides a browsable interface with filtering, sorting, and vim-style keyboard navigation.
 

@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { formatNumber } from "../lib/utils.ts";
+import { formatNumber } from "../lib/utils";
 
 describe("formatNumber", () => {
   it("formats numbers less than 1000", () => {
